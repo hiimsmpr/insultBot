@@ -10,7 +10,6 @@ let msgCounter = 0
 let randomCount = 10
 client.on('message', message => {
     lowerCasement = message.content.toLowerCase()
-    console.log(lowerCasement)
     const user = message.author
     // if (msgCounter === randomCount) {
     //     axios.get(PREFIX.insultApiUrl).then(resp => {
