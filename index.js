@@ -55,14 +55,12 @@ client.on('message', message => {
         }
     }else if (command === 'insult') {
         if (args.length === 1) {
-            console.log("if hit")
             let insult
             axios.get(PREFIX.insultApiUrl).then(resp => {
                 message.channel.send(resp.data.insult+args[0]);
             });
             return
         } else {
-            console.log("else hit")
             let insult
             axios.get(PREFIX.insultApiUrl).then(resp => {
                 message.channel.send(`${user} ` + resp.data.insult);
