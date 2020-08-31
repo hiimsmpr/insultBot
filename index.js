@@ -10,24 +10,11 @@ client.once('ready', () => {
 let msgCounter = 0
 let randomCount = 10
 client.on('message', message => {
-  
+
     lowerCasement = message.content.toLowerCase()
     const user = message.author
     console.log(`${user}: ` + message.content)
-    // if (msgCounter === randomCount) {
-    //     axios.get(PREFIX.insultApiUrl).then(resp => {
-    //         message.channel.send(`${user} ` + resp.data.insult);
-    //     });
-
-    //     randomCount = Math.floor(Math.random() * 50)
-    //     msgCounter = 0
-    // }
-    // if (message.content.includes(" ")) {
-    //     msgCounter += 1
-    //     console.log(msgCounter)
-    //     console.log("random number is "+randomCount)
-    // }
-    if (lowerCasement.includes("cranial rectalitis")||lowerCasement.includes("cranial rectalitis")||lowerCasement.includes("daphne")||lowerCasement.includes("blaze")||lowerCasement.includes("asshole")||lowerCasement.includes("cunt")) {
+    if (lowerCasement.includes("cranial rectalitis") || lowerCasement.includes("cranial rectalitis") || lowerCasement.includes("daphne") || lowerCasement.includes("blaze") || lowerCasement.includes("asshole") || lowerCasement.includes("cunt")) {
 
         let insult
         axios.get(PREFIX.insultApiUrl).then(resp => {
@@ -53,11 +40,11 @@ client.on('message', message => {
             let timeInMinutes = timeCalculatedMinutes % 60
             message.channel.send("Esitmated time: " + timeInHours + " hours and " + timeInMinutes + " minutes.")
         }
-    }else if (command === 'insult') {
+    } else if (command === 'insult') {
         if (args.length === 1) {
             let insult
             axios.get(PREFIX.insultApiUrl).then(resp => {
-                message.channel.send(resp.data.insult+args[0]);
+                message.channel.send(resp.data.insult + args[0]);
             });
             return
         } else {
@@ -66,8 +53,17 @@ client.on('message', message => {
                 message.channel.send(`${user} ` + resp.data.insult);
             });
         }
+    }else if (command === 'warp') {
+        if (args.length=== 2) {
+            const calculator = Math.ceil(args[0] * args[1] * .00023)
+            message.channel.send(calculator + " warp cells needed")
+            return
+        } else {
+
+            message.channel.send("The proper format for this command is as follows: warp 'distance in su' 'weight of contruct'")
+        }
     }
-    
+
 });
 
 client.login(CONFIG.token);
