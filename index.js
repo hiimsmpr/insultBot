@@ -7,8 +7,6 @@ const { prefix } = require('./config.json');
 client.once('ready', () => {
     console.log('Ready!');
 });
-let msgCounter = 0
-let randomCount = 10
 client.on('message', message => {
 
     lowerCasement = message.content.toLowerCase()
@@ -53,13 +51,17 @@ client.on('message', message => {
                 message.channel.send(`${user} ` + resp.data.insult);
             });
         }
-    }else if (command === 'warp') {
-        if (args.length=== 2) {
+    } else if (command === 'warp') {
+        if (args.length === 2) {
             const calculator = Math.ceil(args[0] * args[1] * .00025)
-            message.channel.send(calculator + " warp cells needed")
+            console.log(isNaN(calculator))
+            if (isNaN(calculator)) {
+                message.channel.send("The proper format for this command is as follows: warp 'distance in su' 'weight of contruct'")
+            } else {
+                message.channel.send(calculator + " warp cells needed")
+            }
             return
         } else {
-
             message.channel.send("The proper format for this command is as follows: warp 'distance in su' 'weight of contruct'")
         }
     }
