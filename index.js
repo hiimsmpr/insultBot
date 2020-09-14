@@ -55,7 +55,7 @@ client.on('message', message => {
         }
     }else if (command === 'warp') {
         if (args.length=== 2) {
-            const calculator = Math.ceil(args[0] * args[1] * .00023)
+            const calculator = Math.ceil(args[0] * args[1] * .00025)
             message.channel.send(calculator + " warp cells needed")
             return
         } else {
