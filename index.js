@@ -170,10 +170,11 @@ client.on('message', message => {
             }
         }).then(res => {
             let allStories = res.data
-            console.log(allStories)
-            allStories.map(story => {
 
+            allStories.map(story => {
+                if(story.current_state !== "accepted"){
                 message.channel.send(storyPost(story.id, story.name, story.current_state, story.url, story.description))
+                }
             })
         })
     }
