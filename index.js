@@ -63,6 +63,11 @@ let currentStep = 0
 let createOrder = {}
 let authorId
 client.on('message', message => {
+    console.log(message.content)
+    const checkMeBigBoy = message.content.toLowerCase()
+    if (checkMeBigBoy.includes("rock")) {
+        message.channel.send("fuck that guy")
+}
     const createTicket = async (ticket) => {
         let isLabelMade = false
         console.log(ticket)
@@ -82,7 +87,7 @@ client.on('message', message => {
             // console.log(allLabels.includes(ticket.requestor.toLowerCase()))
             const requestor = ticket.requestor.toLowerCase()
             console.log(allLabels)
-            
+
             allLabels.find((label, index) => {
                 if (label.name === ticket.requestor.toLowerCase()) {
                     labelId = label.id
@@ -93,26 +98,26 @@ client.on('message', message => {
         })
         //create new label
 
-        const makeNewLabel = ()=>{
+        const makeNewLabel = () => {
             if (!isLabelMade) {
-            const labelpackage = {
-                project_id: CONFIG.projectId,
-                name: ticket.requestor
-            }
-            axios.post(pivotalLabelUrl, labelpackage, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-TrackerToken": CONFIG.pivotalToken
+                const labelpackage = {
+                    project_id: CONFIG.projectId,
+                    name: ticket.requestor
                 }
-            }).then(res => {
-                console.log(res.data)
-                labelId = res.data.id
-                console.log(labelId)
-            })
+                axios.post(pivotalLabelUrl, labelpackage, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-TrackerToken": CONFIG.pivotalToken
+                    }
+                }).then(res => {
+                    console.log(res.data)
+                    labelId = res.data.id
+                    console.log(labelId)
+                })
+            }
         }
-    }
-    setTimeout(makeNewLabel,500)
-        const postTicket = ()=>{
+        setTimeout(makeNewLabel, 500)
+        const postTicket = () => {
             const storypackage = {
                 kind: "story",
                 current_state: "unstarted",
@@ -126,18 +131,18 @@ client.on('message', message => {
                 }]
             }
             console.log(storypackage)
-             axios.post(pivotalStoryUrl, storypackage, {
-            headers: {
-                "Content-Type": "application/json",
-                "X-TrackerToken": CONFIG.pivotalToken
-            }
-        }).then(res => {
-            storyId = res.data.id
-            client.channels.cache.get("1010310610300444762").send("There is a new request waiting.")
-        })
+            axios.post(pivotalStoryUrl, storypackage, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-TrackerToken": CONFIG.pivotalToken
+                }
+            }).then(res => {
+                storyId = res.data.id
+                client.channels.cache.get("1010310610300444762").send("There is a new request waiting.")
+            })
         }
-        setTimeout(postTicket,750)
-       
+        setTimeout(postTicket, 750)
+
 
     }
     if (message.channel.type === "dm" && currentStep === 1 && authorId === message.author.id) {
@@ -159,8 +164,12 @@ client.on('message', message => {
     const user = message.author.username
     const pivotalStoryUrl = `https://www.pivotaltracker.com/services/v5/projects/${CONFIG.projectId}/stories`
     if (!message.content.startsWith(prefix) || message.author.bot) return;
+    // if (command === 'rock') {
+    //     message.channel.send("fuck that guy")
+    // }
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
+    console.log(args)
     if (command === 'getallindyorders') {
 
         axios.get(pivotalStoryUrl, {
@@ -172,11 +181,14 @@ client.on('message', message => {
             let allStories = res.data
 
             allStories.map(story => {
-                if(story.current_state !== "accepted"){
-                message.channel.send(storyPost(story.id, story.name, story.current_state, story.url, story.description))
+                if (story.current_state !== "accepted") {
+                    message.channel.send(storyPost(story.id, story.name, story.current_state, story.url, story.description))
                 }
             })
         })
+    }
+    if (command === 'rock') {
+        message.channel.send("fuck that guy")
     }
     if (command === 'getmyindyorders') {
         axios.get(pivotalStoryUrl, {
@@ -215,7 +227,7 @@ client.on('message', message => {
         message.channel.send(commandPost("requestindyorder", "Sends requestor detailedish questions about what is being requested of the amazing indy people who are really under appreciated...."))
         message.channel.send(commandPost("sutime DISTANCE SPEED", "Returns a travel time when providing distance and speed"))
         message.channel.send(commandPost("warp DISTANCE-IN-SU WEIGHT", "Returns a warp cost when you provide distance in su and weight of construct"))
-        
+
     }
 
 
