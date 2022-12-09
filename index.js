@@ -63,11 +63,7 @@ let currentStep = 0
 let createOrder = {}
 let authorId
 client.on('message', message => {
-    console.log(message.content)
-    const checkMeBigBoy = message.content.toLowerCase()
-    if (checkMeBigBoy.includes("rock")) {
-        message.channel.send("fuck that guy")
-}
+
     const createTicket = async (ticket) => {
         let isLabelMade = false
         console.log(ticket)
